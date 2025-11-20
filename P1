@@ -1,0 +1,58 @@
+import heapq
+
+goal="123456780"
+
+def h(s):
+    return sum(abs(i//3 - s.index(str(i))//3) + abs(i%3 - s.index(str(i))%3) for i in range(1,9))
+
+def n(s):
+    r=s.index("0")
+    o=[]
+    for d in [-3,3,-1,1]:
+        k=r+d
+        if 0<=k<9:
+            if r%3==0 and d==-1: continue
+            if r%3==2 and d==1: continue
+            t=list(s)
+            t[r],t[k]=t[k],t[r]
+            o.append("".join(t))
+    return o
+
+def a(s):
+    q=[(h(s),s)]
+    v=set()
+    while q:
+        _,x=heapq.heappop(q)
+        if x==goal:
+            return x
+        if x in v:
+            continue
+        v.add(x)
+        for y in n(x):
+            heapq.heappush(q,(h(y),y))
+    return None
+
+print(a("103425786"))
+
+
+Q.2
+
+from collections import deque
+
+def solve():
+    q=deque([(0,0)])
+    vis=set()
+    while q:
+        a,b=q.popleft()
+        if b==4: return a,b
+        if (a,b) in vis: continue
+        vis.add((a,b))
+        q+=[
+            (5,b),(a,7),(0,b),(a,0),
+            (a-min(a,7-b), b+min(a,7-b)),
+            (a+min(b,5-a), b-min(b,5-a))
+        ]
+    return None
+
+print(solve())
+
