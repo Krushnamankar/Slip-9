@@ -1,0 +1,103 @@
+Slip 13 ADWT
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ABC Company</title>
+</head>
+<body>
+
+<header>
+    <h1>ABC Company Website</h1>
+</header>
+
+<nav>
+    <a href="#">Home</a> |
+    <a href="#">Services</a> |
+    <a href="#">Contact</a>
+</nav>
+
+<aside>
+    <p>Quick Links:</p>
+    <ul>
+        <li>About Us</li>
+        <li>Careers</li>
+    </ul>
+</aside>
+
+<section>
+    <h2>Welcome</h2>
+    <p>This website is created using HTML5 semantic tags: header, nav, aside, section, footer.</p>
+</section>
+
+<footer>
+    <p>&copy; 2025 ABC Company</p>
+</footer>
+
+</body>
+</html>
+
+
+
+
+Q2
+
+
+db.students.insertMany([
+ { sid:1, name:"Amit", class:"FY" },
+ { sid:2, name:"Sara", class:"SY" },
+ { sid:3, name:"Riya", class:"FY" },
+ { sid:4, name:"Karan", class:"TY" },
+ { sid:5, name:"Meera", class:"SY" },
+ { sid:6, name:"John", class:"FY" },
+ { sid:7, name:"Vikas", class:"TY" },
+ { sid:8, name:"Pooja", class:"FY" },
+ { sid:9, name:"Reena", class:"SY" },
+ { sid:10, name:"Rohan", class:"TY" }
+])
+
+
+db.competitions.insertMany([
+ { cid:1, comp:"Programming", sid:1, rank:1 },
+ { cid:2, comp:"Programming", sid:3, rank:2 },
+ { cid:3, comp:"Programming", sid:6, rank:3 },
+
+ { cid:4, comp:"E-Rangoli", sid:2, rank:1 },
+ { cid:5, comp:"E-Rangoli", sid:3, rank:2 },
+ { cid:6, comp:"E-Rangoli", sid:8, rank:3 },
+
+ { cid:7, comp:"Drawing", sid:5, rank:1 },
+ { cid:8, comp:"Drawing", sid:9, rank:2 },
+ { cid:9, comp:"Drawing", sid:10, rank:3 },
+
+ { cid:10, comp:"Singing", sid:4, rank:1 }
+])
+
+
+
+Queries
+
+
+1.db.competitions.aggregate([
+ { $group: { _id:"$comp", students:{ $sum:1 } } }
+])
+
+2.db.competitions.find({ comp:"Programming" }).count()
+
+3.db.competitions.find({ rank:{ $lte:3 } })
+
+4.db.students.find({ class:"FY" })
+
+5.db.competitions.aggregate([
+ { $match:{ comp:"E-Rangoli" } },
+ { $lookup:{
+       from:"students",
+       localField:"sid",
+       foreignField:"sid",
+       as:"stud"
+ }},
+ { $match:{ "stud.class":"FY" } }
+])
+
+
+
